@@ -5,8 +5,8 @@ import Ads from "./components/ads";
 
 export default function MainPage() {
   return (
-    <>
-      <div className="ads-container flex flex-col lg:flex-row lg:mx-[160px] justify-between mt-8 shrink-0">
+    <div className=" pt-8">
+      <div className="ads-container flex flex-col lg:flex-row lg:mx-[160px] shrink-0 justify-center gap-2">
         <div className="right-ads flex md:justify-center">
           <Carousel />
         </div>
@@ -17,6 +17,6 @@ export default function MainPage() {
       </div>
       <Scroller />
       <Products />
-    </>
+    </div>
   );
 }

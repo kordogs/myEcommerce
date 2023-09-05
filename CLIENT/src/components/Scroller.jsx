@@ -2,7 +2,7 @@ export default function Scroller() {
   return (
     <div className="flex lg:mx-[186px] gap-10 overflow-x-auto mt-4">
       <button className="flex flex-col justify-center items-center">
-        <div className=" rounded-full w-[52px]">
+        <div className=" rounded-full w-[52px] hover:ring-1 ring-blue-200">
           <svg
             width="50px"
             height="50px"

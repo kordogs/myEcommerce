@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const Navigate = useNavigate();
+
   return (
     <>
-      <nav className="flex items-center justify-between flex-wrap h-20 px-16 shadow-sm sticky top-0 bg-white z-50">
+      <nav className="flex items-center justify-between flex-wrap h-20 px-16 shadow-sm sticky top-0 bg-blue-200 z-50">
         <div className="flex items-center flex-shrink-0 mr-6">
           <span className="font-semibold text-xl tracking-tight">
             myE-commerce
@@ -43,7 +45,7 @@ export default function Navbar() {
           </button>
           <Link
             className="border border-black rounded-full w-14 h-14 flex justify-center items-center bg-blue-600"
-            to={"login"}
+            to={Navigate("/login")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
