@@ -21,8 +21,8 @@ export default function Navbar() {
           </span>
         </div>
 
-        <div className="flex gap-5 items-center">
-          <form className="border border-black-100 rounded-full flex justify-center">
+        <div className="flex  items-center">
+          <form className="border border-black-100 rounded-xl flex justify-center">
             <input
               placeholder="search"
               className="rounded-s-full bg-transparent w-80 h-12 ps-3 hidden lg:flex"
@@ -42,34 +42,66 @@ export default function Navbar() {
               </svg>
             </button>
           </form>
-          <button>
+          <Link
+            className="w-14 h-14 flex justify-center items-center"
+            to={"/login"}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
+              fill="none"
               viewBox="0 0 24 24"
-              fill="currentColor"
+              strokeWidth={1.5}
+              stroke="currentColor"
               className="w-6 h-6"
             >
-              <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+              />
             </svg>
-          </button>
-          {!user && (
-            <Link
-              className="border rounded-full w-14 h-14 flex justify-center items-center bg-gray-500"
-              to={"/login"}
+          </Link>
+          <Link
+            className="w-14 h-14 flex justify-center items-center"
+            to={"/login"}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-10 h-10"
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+              />
+            </svg>
+          </Link>
+          {!user && (
+            <>
+              <Link
+                className="w-14 h-14 flex justify-center items-center"
+                to={"/login"}
               >
-                <path
-                  fillRule="evenodd"
-                  d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </Link>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                  />
+                </svg>
+              </Link>
+            </>
           )}
           {user && <Drawer />}
         </div>

@@ -78,8 +78,13 @@ export default function Login() {
                 Purchase + Sell, all in myE-commerce
               </h1>
               <p>
-                An online shopping center for all, to buy all stuffs that are
-                affordable and safe. Discounts and Points for VIP members.
+                Discover myEcommerce, your go-to online shopping haven catering
+                to everyone! Shop with confidence, knowing you'll find
+                affordable and safe products that suit your every need. Plus,
+                indulge in exclusive perks like discounts and loyalty points,
+                exclusively designed for our VIP members. Your satisfaction is
+                our priority – join us and experience the joy of secure,
+                budget-friendly, and delightful shopping
               </p>
             </div>
           </div>

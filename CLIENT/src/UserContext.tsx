@@ -20,19 +20,6 @@ export default function UserContextProvider({ children }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // if (!user) {
-    //   axios("http://localhost:4000/user", {
-    //     withCredentials: true,
-    //   })
-    //     .then((response) => response.data)
-    //     .then((user) => {
-    //       setUser(user);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }
-
     const fetchData = async () => {
       try {
         const response = await axios("http://localhost:4000/user", {
