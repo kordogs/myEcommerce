@@ -9,9 +9,9 @@ interface cardProps {
 
 export default function Card({ src, productName, genre, price }: cardProps) {
   return (
-    <div className="relative card rounded-lg w-60 bg-base-100 h-96 border hover:border-blue-500 hover:shadow-lg">
+    <div className="relative card rounded-lg w-60 bg-base-100 h-96 border hover:border-blue-500 hover:shadow-lg transition-all duration-500">
       <figure className="h-full">
-        <span className="absolute flex justify-center items-center opacity-0 hover:opacity-100 gap-1 top-2 left-0 right-2 bottom-0 m-auto z-10">
+        <span className="absolute flex justify-center items-center opacity-0 hover:opacity-100 gap-1 top-2 left-0 right-2 bottom-0 m-auto z-10 transition-all duration-200">
           <button className="bg-base-100 w-8 h-8 flex items-center justify-center shadow-xl rounded-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"

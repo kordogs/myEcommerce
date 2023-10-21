@@ -1,12 +1,13 @@
 import Cookies from "js-cookie";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Modal from "./Modal";
 import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
-import LoadingCard from "./LoadingCard";
 
 export default function Drawer() {
   const Navigate = useNavigate();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
   const userContext = useContext(UserContext);
   if (!userContext) {
     throw new Error("UserContext is not available");
@@ -19,12 +20,36 @@ export default function Drawer() {
     Navigate("/login");
   };
 
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
+
+  const closeModal = () => {
+    setIsOpenModal(false);
+  };
+
+  const checkboxRef = useRef<HTMLInputElement | null>(null);
+
+  const toggleDrawer = () => {
+    if (checkboxRef.current) {
+      checkboxRef.current.checked = !checkboxRef.current.checked;
+    }
+  };
+
   return (
-    <>
+    <div>
       <div className="drawer drawer-end">
-        <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+        <input
+          id="my-drawer-4"
+          type="checkbox"
+          className="drawer-toggle"
+          ref={checkboxRef}
+        />
         <div className="drawer-content">
-          <label htmlFor="my-drawer-4" className="drawer-button">
+          <button
+            onClick={toggleDrawer}
+            className="drawer-button w-14 h-14 flex justify-center items-center"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -39,7 +64,7 @@ export default function Drawer() {
                 d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
               />
             </svg>
-          </label>
+          </button>
         </div>
         <div className="drawer-side">
           <label
@@ -48,37 +73,64 @@ export default function Drawer() {
             className="drawer-overlay"
           ></label>
           <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-            <div className="user-container mb-3 flex gap-3">
-              <button className="border border-black rounded-full p-1">
+            <div className="flex gap-2">
+              <button className="bg-blue-500 rounded-full px-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
+                  fill="black"
                   viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-10 h-10"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
                 >
                   <path
-                    fillRule="evenodd"
-                    d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                    clipRule="evenodd"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
                   />
                 </svg>
               </button>
-              <div className="flex flex-col">
-                <a className="font-bold text-start">{user?.username}</a>
-                <a className="text-sm text-gray-500">{user?.email}</a>
+              <div className="profile-detail">
+                <p className="font-bold">{user?.username}</p>
+                <p className="text-gray-500">{user?.email}</p>
               </div>
             </div>
-            <span className="border"></span>
+            <span className="border mt-2"></span>
             <li>
-              <button
-                onClick={() =>
-                  (
-                    document.getElementById("my_modal_1") as HTMLDialogElement
-                  )?.showModal()
-                }
-              >
-                Logout
-              </button>
+              <a href="#">Sidebar Item 1</a>
+            </li>
+            <li
+              onClick={() =>
+                (
+                  document.getElementById("my_modal_1") as HTMLDialogElement
+                )?.showModal()
+              }
+            >
+              <div className="flex">
+                <svg
+                  height={20}
+                  version="1.1"
+                  id="Layer_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  fill="#000000"
+                >
+                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <polygon points="491.176,256 323.723,128.652 336.851,217.928 140.291,217.928 140.291,296.697 336.851,296.697 323.723,383.348 "></polygon>{" "}
+                    <path d="M391.039,65.641H73.337v380.718h317.703v52.513H46.718c-14.501,0-25.894-11.755-25.894-26.256V39.385 c0-14.501,11.393-26.256,25.894-26.256h344.321V65.641z"></path>{" "}
+                    <path d="M499.124,245.551L331.671,118.202c-4.248-3.231-10.027-3.568-14.622-0.856s-7.091,7.936-6.315,13.215l10.917,74.239H139.928 c-7.249,0-12.766,5.878-12.766,13.128v78.769c0,7.251,5.516,13.128,12.766,13.128h181.656l-10.841,71.555 c-0.801,5.285,1.683,10.53,6.281,13.257c2.073,1.23,4.389,1.838,6.698,1.838c2.812,0,5.611-0.902,7.949-2.679l167.453-127.348 c3.264-2.483,5.18-6.348,5.18-10.449C504.304,251.899,502.388,248.034,499.124,245.551z M341.555,353.293l8.276-54.629 c0.574-3.782-0.532-7.626-3.026-10.526c-2.493-2.9-6.128-4.569-9.954-4.569H153.419v-52.513h183.433 c3.815,0,7.441-1.659,9.935-4.546c2.493-2.887,3.608-6.716,3.052-10.492l-8.447-57.435L469.488,256L341.555,353.293z"></path>{" "}
+                    <path d="M390.677,433.231H86.465V78.769h304.212c7.249,0,13.491-5.878,13.491-13.128V13.128c0-7.251-6.24-13.128-13.491-13.128 H46.718C25.001,0,7.696,17.668,7.696,39.385v433.231C7.696,494.332,25.001,512,46.718,512h343.959 c7.249,0,13.491-5.877,13.491-13.128v-52.513C404.168,439.108,397.928,433.231,390.677,433.231z M377.911,485.744H46.718 c-7.239,0-12.766-5.889-12.766-13.128V39.385c0-7.239,5.527-13.128,12.766-13.128h331.193v26.256H72.974 c-7.249,0-12.766,5.877-12.766,13.128v380.718c0,7.251,5.516,13.128,12.766,13.128h304.937V485.744z"></path>{" "}
+                  </g>
+                </svg>
+                <span>Logout</span>
+              </div>
             </li>
           </ul>
           <Modal
@@ -88,6 +140,7 @@ export default function Drawer() {
           />
         </div>
       </div>
-    </>
+      {isOpenModal && <Modal title="" description="" onclick={logout} />}
+    </div>
   );
 }
