@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import Drawer from "./Drawer";
 import Logo from "./Logo";
+import Dropdown from "./Dropdown";
+import ProfileDropdown from "./ProfileDropdown";
 
 export default function Navbar() {
   const Navigate = useNavigate();
@@ -90,7 +92,7 @@ export default function Navbar() {
                 />
               </svg>
             </Link>
-            <Drawer />
+            <ProfileDropdown />
           </div>
         )}
       </nav>

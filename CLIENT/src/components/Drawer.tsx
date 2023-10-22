@@ -72,7 +72,7 @@ export default function Drawer() {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+          <ul className="menu  p-4 w-80 min-h-full bg-base-200 text-base-content">
             <div className="flex gap-2">
               <button className="bg-blue-500 rounded-full px-2">
                 <svg
@@ -97,7 +97,42 @@ export default function Drawer() {
             </div>
             <span className="border mt-2"></span>
             <li>
-              <a href="#">Sidebar Item 1</a>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                  />
+                </svg>
+                <span>Your Cart</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                  />
+                </svg>
+                <span>Favorites</span>
+              </div>
             </li>
             <li
               onClick={() =>
@@ -108,27 +143,20 @@ export default function Drawer() {
             >
               <div className="flex">
                 <svg
-                  height={20}
-                  version="1.1"
-                  id="Layer_1"
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                  fill="#000000"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
                 >
-                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
+                  <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                  ></g>
-                  <g id="SVGRepo_iconCarrier">
-                    {" "}
-                    <polygon points="491.176,256 323.723,128.652 336.851,217.928 140.291,217.928 140.291,296.697 336.851,296.697 323.723,383.348 "></polygon>{" "}
-                    <path d="M391.039,65.641H73.337v380.718h317.703v52.513H46.718c-14.501,0-25.894-11.755-25.894-26.256V39.385 c0-14.501,11.393-26.256,25.894-26.256h344.321V65.641z"></path>{" "}
-                    <path d="M499.124,245.551L331.671,118.202c-4.248-3.231-10.027-3.568-14.622-0.856s-7.091,7.936-6.315,13.215l10.917,74.239H139.928 c-7.249,0-12.766,5.878-12.766,13.128v78.769c0,7.251,5.516,13.128,12.766,13.128h181.656l-10.841,71.555 c-0.801,5.285,1.683,10.53,6.281,13.257c2.073,1.23,4.389,1.838,6.698,1.838c2.812,0,5.611-0.902,7.949-2.679l167.453-127.348 c3.264-2.483,5.18-6.348,5.18-10.449C504.304,251.899,502.388,248.034,499.124,245.551z M341.555,353.293l8.276-54.629 c0.574-3.782-0.532-7.626-3.026-10.526c-2.493-2.9-6.128-4.569-9.954-4.569H153.419v-52.513h183.433 c3.815,0,7.441-1.659,9.935-4.546c2.493-2.887,3.608-6.716,3.052-10.492l-8.447-57.435L469.488,256L341.555,353.293z"></path>{" "}
-                    <path d="M390.677,433.231H86.465V78.769h304.212c7.249,0,13.491-5.878,13.491-13.128V13.128c0-7.251-6.24-13.128-13.491-13.128 H46.718C25.001,0,7.696,17.668,7.696,39.385v433.231C7.696,494.332,25.001,512,46.718,512h343.959 c7.249,0,13.491-5.877,13.491-13.128v-52.513C404.168,439.108,397.928,433.231,390.677,433.231z M377.911,485.744H46.718 c-7.239,0-12.766-5.889-12.766-13.128V39.385c0-7.239,5.527-13.128,12.766-13.128h331.193v26.256H72.974 c-7.249,0-12.766,5.877-12.766,13.128v380.718c0,7.251,5.516,13.128,12.766,13.128h304.937V485.744z"></path>{" "}
-                  </g>
+                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                  />
                 </svg>
+
                 <span>Logout</span>
               </div>
             </li>
