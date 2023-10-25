@@ -40,12 +40,12 @@ export default function Modal({ title, description, onclick }: ModalProps) {
           <div className="modal-action">
             <form method="dialog" className="flex gap-1">
               <button
-                className="btn rounded-full bg-red-500 text-white"
+                className="btn rounded-lg bg-red-500 text-white"
                 onClick={onclick}
               >
                 Confirm
               </button>
-              <button className="btn rounded-full">Close</button>
+              <button className="btn rounded-lg">Close</button>
             </form>
           </div>
         </div>

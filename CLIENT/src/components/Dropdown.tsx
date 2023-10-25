@@ -2,7 +2,7 @@ import React, { ReactEventHandler } from "react";
 
 interface dropdownProps {
   items: string[];
-  svg: React.ReactNode;
+  svg: React.ReactNode | string;
   itemSvg: React.ReactNode[];
   onClick: ReactEventHandler[];
 }
@@ -17,9 +17,17 @@ export default function Dropdown({
     <div className="dropdown dropdown-end">
       <label
         tabIndex={0}
-        className="btn bg-transparent border-0 rounded-full m-1"
+        className="btn bg-transparent border-0 rounded-full m-1 p-1"
       >
-        {svg}
+        {typeof svg === "string" ? (
+          <div className="avatar online">
+            <div className="w-10 rounded-full">
+              <img src={svg} alt="" />
+            </div>
+          </div>
+        ) : (
+          svg
+        )}
       </label>
       <ul
         tabIndex={0}

@@ -1,10 +1,12 @@
 import React from "react";
 import Card from "../components/Card";
 import ProductCardM1 from "../components/ProductCardM1";
+import ProductModal from "../components/ProductModal";
 
 export default function ProductPage() {
   return (
     <div className="flex flex-col mt-4 justify-center items-center lg:mx-24 sm:mx-24">
+      <ProductModal />
       <div
         className="w-full mb-5 bg-blue-50 rounded-xl"
         style={{
