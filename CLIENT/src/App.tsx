@@ -4,6 +4,7 @@ import Register from "./auth/Register";
 import IndexPage from "./pages/IndexPage";
 import React from "react";
 import UserContextProvider from "./UserContext";
+import CreateProduct from "./pages/CreateProduct";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           <Route index element={<IndexPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="newProduct" element={<CreateProduct />} />
         </Routes>
       </UserContextProvider>
     </>
