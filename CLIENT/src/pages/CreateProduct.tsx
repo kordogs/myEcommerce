@@ -1,8 +1,45 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateProduct() {
   const Navigate = useNavigate();
+  const [image, setImage] = useState<File | null>(null);
+  const [productName, setProductName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+
+  const createNewProduct = async (e: { preventDefault: () => void }) => {
+    const formData = new FormData();
+    if (image) {
+      formData.append("image", image);
+    }
+    formData.append("productName", productName);
+    formData.append("price", price);
+    formData.append("description", description);
+    formData.append("category", category);
+
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/createProduct",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("success");
+        Navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className=" h-screen p-10 md:flex gap-5 justify-center">
@@ -11,7 +48,15 @@ export default function CreateProduct() {
           src="https://i.pinimg.com/564x/e2/e6/99/e2e699d87be50abe0616ecc30fc2e616.jpg"
           alt=""
         />
-        <input type="file" className="file-input file-input-bordered w-full" />
+        <input
+          type="file"
+          className="file-input file-input-bordered w-full"
+          onChange={(e) => {
+            if (e.target.files) {
+              setImage(e.target.files[0]);
+            }
+          }}
+        />
       </div>
 
       <div className="product-detail">
@@ -22,6 +67,8 @@ export default function CreateProduct() {
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
             />
           </div>
           <div>
@@ -30,6 +77,8 @@ export default function CreateProduct() {
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             />
           </div>
         </div>
@@ -38,23 +87,31 @@ export default function CreateProduct() {
           <textarea
             className="textarea textarea-bordered"
             placeholder="Type here"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
         <div className="container flex flex-col mb-2">
           <span className=" font-bold text-lg">Category</span>
-          <select className="select select-bordered w-full">
+          <select
+            className="select select-bordered w-full"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
             <option disabled selected>
               Select a Category
             </option>
-            <option>Apparel</option>
-            <option>Consumable</option>
+            <option value="Apparel">Apparel</option>
+            <option value="Consumable">Consumable</option>
           </select>
         </div>
         <div className="submit-button flex gap-1">
           <button className="btn" onClick={() => Navigate("/")}>
             Back
           </button>
-          <button className="btn bg-blue-500">submit</button>
+          <button className="btn bg-blue-500" onClick={createNewProduct}>
+            submit
+          </button>
         </div>
       </div>
     </div>

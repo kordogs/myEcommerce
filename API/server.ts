@@ -30,9 +30,11 @@ connectDB();
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const productRoutes = require("./routes/product");
 
 app.use("/", authRoutes);
 app.use("/", userRoutes);
+app.use("/", productRoutes);
 
 app.listen(PORT, () => {
   console.log(`listening to http://localhost:${PORT}`);
