@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
-import ProductCardM1 from "../components/ProductCardM1";
 import ProductModal from "../components/ProductModal";
+import axios from "axios";
+
+interface Product {
+  _id: string;
+  productName: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+}
 
 export default function ProductPage() {
+  const [product, setProduct] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/getProduct");
+        const product = response.data;
+        setProduct(product);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getProduct();
+  }, []);
+
   return (
     <div className="flex flex-col mt-4 justify-center items-center lg:mx-24 sm:mx-24">
       <ProductModal />
@@ -32,66 +57,18 @@ export default function ProductPage() {
         </div>
       </div>
       <div className="flex flex-wrap gap-3 w-full justify-center">
-        <Card
-          productName="Penshoppe - dress"
-          src="https://freepngimg.com/save/13420-dress-transparent/816x979"
-          genre="Apparel"
-          price={1200}
-        />
-        <Card
-          productName="Nike -  shoes"
-          src="https://freepngimg.com/save/27428-nike-shoes-transparent-background/800x587"
-          genre="Apparel"
-          price={4500}
-        />
-        <Card
-          productName="Addidas - Shorts"
-          src="https://clipart-library.com/image_gallery2/Shorts-PNG.png"
-          genre="Apparel"
-          price={650}
-        />
-        <Card
-          productName="Penshoppe - Cap"
-          src="https://freepngimg.com/save/37422-baseball-cap-transparent-image/1500x1437"
-          genre="Apparel"
-          price={299}
-        />
-        <Card
-          productName="Winner - Skeleton"
-          src="https://i.ebayimg.com/images/g/KtYAAOSwgcZiPRul/s-l400.jpg"
-          genre="Apparel"
-          price={299}
-        />
-        <Card
-          productName="Penshoppe - dress"
-          src="https://freepngimg.com/save/13420-dress-transparent/816x979"
-          genre="Apparel"
-          price={1200}
-        />
-        <Card
-          productName="Nike -  shoes"
-          src="https://freepngimg.com/save/27428-nike-shoes-transparent-background/800x587"
-          genre="Apparel"
-          price={4500}
-        />
-        <Card
-          productName="Addidas - Shorts"
-          src="https://clipart-library.com/image_gallery2/Shorts-PNG.png"
-          genre="Apparel"
-          price={650}
-        />
-        <Card
-          productName="Penshoppe - Cap"
-          src="https://freepngimg.com/save/37422-baseball-cap-transparent-image/1500x1437"
-          genre="Apparel"
-          price={299}
-        />
-        <Card
-          productName="Winner - Skeleton"
-          src="https://i.ebayimg.com/images/g/KtYAAOSwgcZiPRul/s-l400.jpg"
-          genre="Apparel"
-          price={299}
-        />
+        {product.length > 0 &&
+          product.map((product) => {
+            return (
+              <Card
+                key={product._id}
+                productName={product.productName}
+                src={product.image}
+                category={product.category}
+                price={product.price}
+              />
+            );
+          })}
       </div>
     </div>
   );

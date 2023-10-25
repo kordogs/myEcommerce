@@ -1,25 +1,35 @@
 import React from "react";
 
-export default function ProductModal() {
+interface modalProps {
+  src: string;
+  productName: string;
+  category: string;
+  price: number;
+  description: string;
+}
+
+export default function ProductModal({
+  src,
+  productName,
+  category,
+  price,
+  description,
+}: modalProps) {
   return (
     <dialog id="my_modal_2" className="modal">
       <div className="modal-box product-card mx-auto w-96 rounded-3xl border p-7 shadow-lg">
         <img
-          src="https://www.junglescout.com/wp-content/uploads/2021/01/product-photo-water-bottle-hero.png"
+          src={src}
           alt="Water Bottle"
           className="mx-auto mb-4 rounded-3xl border"
         />
-        <div className="mb-2 text-xs">Code chuchu</div>
+        <div className="mb-2 text-xs">{category}</div>
         <div className="name-price mb-2 flex items-center justify-between">
-          <h1 className="text-lg font-bold">Water Bottle</h1>
-          <span className="text-xl font-bold">Price</span>
+          <h1 className="text-lg font-bold">{productName}</h1>
+          <span className="text-xl font-bold">{price}</span>
         </div>
         <div className="mb-2 text-xs">DESCRIPTION</div>
-        <p className="text-xs">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Omnis
-          deleniti doloribus nostrum dolor ea delectus dolorum. Dicta amet totam
-          nulla impedit nisi id aliquam minima quae vitae, quidem, qui adipisci?
-        </p>
+        <p className="text-xs">{description}</p>
         <div className="product-button mt-5 flex justify-center gap-1">
           <button className="rounded-lg bg-blue-500 p-2 text-white">
             <svg

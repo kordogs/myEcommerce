@@ -1,14 +1,14 @@
 import React from "react";
 import Star from "./Star";
-import ProductModal from "./ProductModal";
+
 interface cardProps {
   src: string;
   productName: string;
-  genre: string;
+  category: string;
   price: number;
 }
 
-export default function Card({ src, productName, genre, price }: cardProps) {
+export default function Card({ src, productName, category, price }: cardProps) {
   return (
     <>
       <div className="relative card rounded-lg w-60 bg-base-100 h-96 border hover:border-blue-500 hover:shadow-lg transition-all duration-500">
@@ -28,10 +28,10 @@ export default function Card({ src, productName, genre, price }: cardProps) {
           <span className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-xs font-bold uppercase rounded-se-lg">
             Sale
           </span>
-          <img src={src} alt="Shoes" />
+          <img src={"http://localhost:4000/uploads/" + src} alt="Shoes" />
         </figure>
         <div className="m-5 flex flex-col gap-1">
-          <p className="d font-thin text-xs">{genre}</p>
+          <p className="d font-thin text-xs">{category}</p>
           <h2 className="card-title text-sm">{productName}</h2>
           <div className="rating-container flex my-2">
             <Star />

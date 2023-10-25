@@ -47,6 +47,7 @@ export default function CreateProduct() {
         <img
           src="https://i.pinimg.com/564x/e2/e6/99/e2e699d87be50abe0616ecc30fc2e616.jpg"
           alt=""
+          className="rounded-lg"
         />
         <input
           type="file"
@@ -85,7 +86,7 @@ export default function CreateProduct() {
         <div className="container flex flex-col">
           <span className=" font-bold text-lg">Description</span>
           <textarea
-            className="textarea textarea-bordered"
+            className="textarea textarea-bordered h-96"
             placeholder="Type here"
             value={description}
             onChange={(e) => setDescription(e.target.value)}

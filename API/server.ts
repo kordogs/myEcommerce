@@ -10,6 +10,7 @@ const app = express();
 app.use(cors({ origin: process.env.ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static("uploads"));
 
 const PORT = process.env.PORT || 4000;
 
