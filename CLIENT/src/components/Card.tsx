@@ -1,24 +1,34 @@
 import React from "react";
 import Star from "./Star";
+import ProductModal from "./ProductModal";
 
 interface cardProps {
   src: string;
   productName: string;
   category: string;
   price: number;
+  description: string;
 }
 
-export default function Card({ src, productName, category, price }: cardProps) {
+export default function Card({
+  src,
+  productName,
+  category,
+  price,
+  description,
+}: cardProps) {
   return (
     <>
       <div className="relative card rounded-lg w-60 bg-base-100 h-96 border hover:border-blue-500 hover:shadow-lg transition-all duration-500">
         <figure className="h-full">
           <span className="absolute flex justify-center items-center opacity-0 hover:opacity-100 gap-1 top-2 left-0 right-2 bottom-0 m-auto z-10 transition-all duration-200">
             <button
-              className="bg-base-100 border justify-center shadow-xl rounded-lg text-xs p-1 text-gray-500"
+              className="bg-base-100 border justify-center shadow-xl rounded-lg text-xs p-2 text-gray-500"
               onClick={() =>
                 (
-                  document.getElementById("my_modal_2") as HTMLDialogElement
+                  document.getElementById(
+                    `productModal-${productName}`
+                  ) as HTMLDialogElement
                 )?.showModal()
               }
             >
@@ -28,7 +38,11 @@ export default function Card({ src, productName, category, price }: cardProps) {
           <span className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-xs font-bold uppercase rounded-se-lg">
             Sale
           </span>
-          <img src={"http://localhost:4000/uploads/" + src} alt="Shoes" />
+          <img
+            src={"http://localhost:4000/uploads/" + src}
+            alt="Shoes"
+            className="object-contain h-full w-full"
+          />
         </figure>
         <div className="m-5 flex flex-col gap-1">
           <p className="d font-thin text-xs">{category}</p>
@@ -80,6 +94,14 @@ export default function Card({ src, productName, category, price }: cardProps) {
           </div>
         </div>
       </div>
+      <ProductModal
+        id={`productModal-${productName}`}
+        src={"http://localhost:4000/uploads/" + src}
+        productName={productName}
+        category={category}
+        price={price}
+        description={description}
+      />
     </>
   );
 }

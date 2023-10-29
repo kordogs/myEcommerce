@@ -45,9 +45,13 @@ export default function CreateProduct() {
     <div className=" h-screen p-10 md:flex gap-5 justify-center">
       <div className="flex flex-col gap-2">
         <img
-          src="https://i.pinimg.com/564x/e2/e6/99/e2e699d87be50abe0616ecc30fc2e616.jpg"
+          src={
+            image
+              ? URL.createObjectURL(image)
+              : "https://i.pinimg.com/564x/e2/e6/99/e2e699d87be50abe0616ecc30fc2e616.jpg"
+          }
           alt=""
-          className="rounded-lg"
+          className="rounded-lg h-[564px] w-[564px]"
         />
         <input
           type="file"
@@ -59,7 +63,6 @@ export default function CreateProduct() {
           }}
         />
       </div>
-
       <div className="product-detail">
         <div className="container flex">
           <div>
@@ -99,11 +102,12 @@ export default function CreateProduct() {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option disabled selected>
+            <option value="" disabled selected>
               Select a Category
             </option>
             <option value="Apparel">Apparel</option>
             <option value="Consumable">Consumable</option>
+            <option value="Electronics">Electronics</option>
           </select>
         </div>
         <div className="submit-button flex gap-1">

@@ -30,7 +30,7 @@ export default function Modal({ title, description, onclick }: ModalProps) {
             {title}
           </h3>
           <p className="py-4 text-center">{description}</p>
-          <div className="modal-action">
+          <div className="flex justify-end">
             <form method="dialog" className="flex gap-1">
               <button
                 className="btn rounded-lg bg-red-500 text-white"

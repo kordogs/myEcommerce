@@ -6,6 +6,7 @@ interface modalProps {
   category: string;
   price: number;
   description: string;
+  id: string;
 }
 
 export default function ProductModal({
@@ -14,22 +15,23 @@ export default function ProductModal({
   category,
   price,
   description,
+  id,
 }: modalProps) {
   return (
-    <dialog id="my_modal_2" className="modal">
+    <dialog id={id} className="modal">
       <div className="modal-box product-card mx-auto w-96 rounded-3xl border p-7 shadow-lg">
         <img
           src={src}
           alt="Water Bottle"
-          className="mx-auto mb-4 rounded-3xl border"
+          className="mx-auto mb-4 rounded-3xl max-h-72"
         />
         <div className="mb-2 text-xs">{category}</div>
         <div className="name-price mb-2 flex items-center justify-between">
           <h1 className="text-lg font-bold">{productName}</h1>
-          <span className="text-xl font-bold">{price}</span>
+          <span className="text-xl font-bold">php {price}</span>
         </div>
         <div className="mb-2 text-xs">DESCRIPTION</div>
-        <p className="text-xs">{description}</p>
+        <p className="text-xs max-h-20 overflow-auto">{description}</p>
         <div className="product-button mt-5 flex justify-center gap-1">
           <button className="rounded-lg bg-blue-500 p-2 text-white">
             <svg

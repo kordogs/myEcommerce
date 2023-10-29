@@ -89,7 +89,7 @@ export default function Login() {
             </div>
           </div>
           <div className="left flex justify-center lg:w-1/2 p-10">
-            <div className="card flex flex-col border rounded-3xl bg-white w-[450px] h-[545px] justify-center items-center shrink-0">
+            <div className="card flex flex-col border rounded-3xl bg-base-100 w-[450px] h-[545px] justify-center items-center shrink-0">
               <div className="card-content">
                 <h1 className="card-title font-bold text-black text-2xl">
                   Sign in to myE-commerce

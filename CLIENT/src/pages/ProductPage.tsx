@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
-import ProductModal from "../components/ProductModal";
 import axios from "axios";
 
 interface Product {
@@ -31,7 +30,6 @@ export default function ProductPage() {
 
   return (
     <div className="flex flex-col mt-4 justify-center items-center lg:mx-24 sm:mx-24">
-      <ProductModal />
       <div
         className="w-full mb-5 bg-blue-50 rounded-xl"
         style={{
@@ -66,6 +64,7 @@ export default function ProductPage() {
                 src={product.image}
                 category={product.category}
                 price={product.price}
+                description={product.description}
               />
             );
           })}

@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
+import ProfileModal from "./ProfileModal";
+import axios from "axios";
 
 export default function ProfileDropdown() {
   const Navigate = useNavigate();
@@ -15,17 +17,16 @@ export default function ProfileDropdown() {
   const { user, setUser } = userContext;
 
   const logout = async () => {
-    Cookies.remove("token");
-    setUser(null);
-    Navigate("/login");
-  };
-
-  const openModal = () => {
-    setIsOpenModal(true);
-  };
-
-  const closeModal = () => {
-    setIsOpenModal(false);
+    try {
+      const response = await axios.post("http://localhost:4000/logout");
+      if (response.status === 200) {
+        Cookies.remove("token");
+        setUser(null);
+        Navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -48,8 +49,15 @@ export default function ProfileDropdown() {
               />
             </svg>
           )) ||
-          (user &&
-            "https://1409791524.rsc.cdn77.org/data/images/full/645253/newjeans-hanni-sparks-appreciation-thread-shes-a-whole-package.png?w=600?w=430")
+          (user && user.profilePic ? (
+            "http://localhost:4000/uploads/profilePicture/" + user.profilePic
+          ) : (
+            <div className="avatar placeholder">
+              <div className="bg-neutral-focus text-neutral-content rounded-full w-10">
+                <span className="text-3xl">{user?.username.charAt(0)}</span>
+              </div>
+            </div>
+          ))
         }
         items={
           (user && [
@@ -66,7 +74,10 @@ export default function ProfileDropdown() {
             () => {
               Navigate("/newProduct");
             },
-            () => {},
+            () =>
+              (
+                document.getElementById("profileModal") as HTMLDialogElement
+              )?.showModal(),
             () => {},
             () => {},
             () =>
@@ -165,6 +176,7 @@ export default function ProfileDropdown() {
         description="Are you sure you want to logout?"
         onclick={logout}
       />
+      <ProfileModal />
       {isOpenModal && <Modal title="" description="" onclick={logout} />}
     </>
   );

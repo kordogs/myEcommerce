@@ -59,6 +59,7 @@ router.post(
           email: existingUser.email,
           username: existingUser.username,
           id: existingUser._id,
+          profilePic: existingUser.profilePic,
         },
         secret,
         {}
@@ -67,11 +68,16 @@ router.post(
         email: existingUser.email,
         username: existingUser.username,
         id: existingUser._id,
+        profilePic: existingUser.profilePic,
       });
     } catch (error) {
       next(error);
     }
   }
 );
+
+router.post("/logout", (req: Request, res: Response, next: NextFunction) => {
+  return res.cookie("token", "").json("you have been logout");
+});
 
 module.exports = router;

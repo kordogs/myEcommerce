@@ -5,6 +5,7 @@ import IndexPage from "./pages/IndexPage";
 import React from "react";
 import UserContextProvider from "./UserContext";
 import CreateProduct from "./pages/CreateProduct";
+import TestingPage from "./pages/TestingPage";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="newProduct" element={<CreateProduct />} />
+          <Route path="testing" element={<TestingPage />} />
         </Routes>
       </UserContextProvider>
     </>
