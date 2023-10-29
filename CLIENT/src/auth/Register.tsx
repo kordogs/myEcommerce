@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import React from "react";
 import LoadingCard from "../components/LoadingCard";
 
