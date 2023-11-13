@@ -6,6 +6,7 @@ import React from "react";
 import UserContextProvider from "./UserContext";
 import CreateProduct from "./pages/CreateProduct";
 import TestingPage from "./pages/TestingPage";
+import ViewProduct from "./pages/ViewProduct";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="register" element={<Register />} />
           <Route path="newProduct" element={<CreateProduct />} />
           <Route path="testing" element={<TestingPage />} />
+          <Route path="viewProduct/:id" element={<ViewProduct />} />
         </Routes>
       </UserContextProvider>
     </>

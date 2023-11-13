@@ -11,6 +11,7 @@ export default function ProfileModal() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const userContext = useContext(UserContext);
   if (!userContext) {
@@ -31,6 +32,9 @@ export default function ProfileModal() {
     }
     if (password) {
       formData.append("password", password);
+    }
+    if (username) {
+      formData.append("username", username);
     }
 
     try {
@@ -54,13 +58,14 @@ export default function ProfileModal() {
     }
   };
 
-  const emptyInputs = email === "" && image === null && password === "";
+  const emptyInputs =
+    email === "" && image === null && password === "" && username === "";
 
   return (
     <>
       <ReusableModal id="profileModal">
         {isLoading && <LoadingCard />}
-        <div className=" profile-card flex w-72 flex-col items-center justify-center rounded-lg  p-8 bg-white">
+        <div className=" profile-card flex w-72 flex-col items-center justify-center rounded-lg  p-8">
           {(!user?.profilePic && (
             <div className="avatar placeholder">
               <div className="bg-neutral-focus text-neutral-content rounded-full w-24">
@@ -92,6 +97,7 @@ export default function ProfileModal() {
             <label
               htmlFor="file-input"
               className="mx-auto cursor-pointer rounded bg-slate-100 p-3"
+              itemType="image"
             >
               Update Profile
             </label>
@@ -112,6 +118,15 @@ export default function ProfileModal() {
               value={email}
               onChange={(e) => setEmail((e.target as HTMLInputElement).value)}
               type="email"
+            />
+            <ButtonWithSlidingInput
+              buttonName="Change Username"
+              placeholder="New Username"
+              value={username}
+              onChange={(e) =>
+                setUsername((e.target as HTMLInputElement).value)
+              }
+              type="text"
             />
             <ButtonWithSlidingInput
               buttonName="Change Password"

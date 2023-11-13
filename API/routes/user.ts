@@ -11,10 +11,10 @@ dotenv.config();
 const secret = process.env.SECRET;
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/profilePicture"); // Uploads folder in the root directory
+    cb(null, "uploads/profilePicture");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname); // Unique filename
+    cb(null, Date.now() + file.originalname);
   },
 });
 
@@ -47,7 +47,7 @@ router.put(
   upload.single("image"),
   async (req: Request, res: Response, next: NextFunction) => {
     const { token } = req.cookies;
-    const { email, password } = req.body;
+    const { email, password, username } = req.body;
     const image = req.file?.filename;
 
     const user = await jwt.verify(token, process.env.SECRET, {});
@@ -60,8 +60,14 @@ router.put(
     }
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-      return res.status(400).json("already exist");
+      return res.status(400).json("Email already exist");
     }
+
+    const existingUsername = await userModel.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json("Username Already Exist");
+    }
+
     try {
       const hashedPassword = password
         ? await bcrypt.hash(password, 10)
@@ -70,6 +76,7 @@ router.put(
       let updateFields: any = {
         email: email || currentUser.email,
         password: hashedPassword,
+        username: username || currentUser.username,
       };
 
       if (image) {

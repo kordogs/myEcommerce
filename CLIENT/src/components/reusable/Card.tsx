@@ -1,6 +1,7 @@
 import React from "react";
-import Star from "./Star";
-import ProductModal from "./ProductModal";
+import Star from "../Star";
+import ProductModal from "../ProductModal";
+import { useNavigate } from "react-router-dom";
 
 interface cardProps {
   src: string;
@@ -8,6 +9,8 @@ interface cardProps {
   category: string;
   price: number;
   description: string;
+  key: string;
+  productId: string;
 }
 
 export default function Card({
@@ -16,7 +19,13 @@ export default function Card({
   category,
   price,
   description,
+  key,
+  productId,
 }: cardProps) {
+  const productSrc = "http://localhost:4000/uploads/products/" + src;
+  const Navigate = useNavigate();
+  console.log(key);
+
   return (
     <>
       <div className="relative card rounded-lg w-60 bg-base-100 h-96 border hover:border-blue-500 hover:shadow-lg transition-all duration-500">
@@ -34,19 +43,25 @@ export default function Card({
             >
               preview
             </button>
+            <button
+              className="bg-base-100 border justify-center shadow-xl rounded-lg text-xs p-2 text-gray-500"
+              onClick={() => Navigate(`/viewProduct/${productId}`)}
+            >
+              fullview
+            </button>
           </span>
           <span className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-xs font-bold uppercase rounded-se-lg">
             Sale
           </span>
           <img
-            src={"http://localhost:4000/uploads/" + src}
+            src={productSrc}
             alt="Shoes"
             className="object-contain h-full w-full"
           />
         </figure>
         <div className="m-5 flex flex-col gap-1">
           <p className="d font-thin text-xs">{category}</p>
-          <h2 className="card-title text-sm">{productName}</h2>
+          <a className="card-title text-sm">{productName}</a>
           <div className="rating-container flex my-2">
             <Star />
             <Star />
@@ -73,7 +88,7 @@ export default function Card({
                   />
                 </svg>
               </button>
-              <button className="bg-blue-500 rounded-lg text-xs text-white flex items-center justify-center z-10 p-2">
+              <button className="bg-blue-500 rounded-lg text-xs text-white flex items-center justify-center z-20 p-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -96,7 +111,7 @@ export default function Card({
       </div>
       <ProductModal
         id={`productModal-${productName}`}
-        src={"http://localhost:4000/uploads/" + src}
+        src={productSrc}
         productName={productName}
         category={category}
         price={price}

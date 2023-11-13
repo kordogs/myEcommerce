@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 export default function CreateProduct() {
   const Navigate = useNavigate();
@@ -9,6 +10,11 @@ export default function CreateProduct() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const userContext = useContext(UserContext);
+  if (!userContext) {
+    throw new Error("Cannot find user");
+  }
+  const { user } = userContext;
 
   const createNewProduct = async (e: { preventDefault: () => void }) => {
     const formData = new FormData();
@@ -19,6 +25,7 @@ export default function CreateProduct() {
     formData.append("price", price);
     formData.append("description", description);
     formData.append("category", category);
+    formData.append("sellerId", user?.id);
 
     e.preventDefault();
     try {
@@ -87,15 +94,6 @@ export default function CreateProduct() {
           </div>
         </div>
         <div className="container flex flex-col">
-          <span className=" font-bold text-lg">Description</span>
-          <textarea
-            className="textarea textarea-bordered h-96"
-            placeholder="Type here"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
-        </div>
-        <div className="container flex flex-col mb-2">
           <span className=" font-bold text-lg">Category</span>
           <select
             className="select select-bordered w-full"
@@ -110,6 +108,16 @@ export default function CreateProduct() {
             <option value="Electronics">Electronics</option>
           </select>
         </div>
+        <div className="container flex flex-col mb-2">
+          <span className=" font-bold text-lg">Description</span>
+          <textarea
+            className="textarea textarea-bordered h-96"
+            placeholder="Type here"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
+        </div>
+
         <div className="submit-button flex gap-1">
           <button className="btn" onClick={() => Navigate("/")}>
             Back

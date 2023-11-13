@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Card from "../components/Card";
+import React, { useContext, useEffect, useState } from "react";
+import Card from "../components/reusable/Card";
 import axios from "axios";
+import { UserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
 
 interface Product {
   _id: string;
@@ -9,10 +11,12 @@ interface Product {
   description: string;
   category: string;
   image: string;
+  productId: string;
 }
 
 export default function ProductPage() {
   const [product, setProduct] = useState<Product[]>([]);
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const getProduct = async () => {
@@ -24,9 +28,14 @@ export default function ProductPage() {
         console.log(error);
       }
     };
-
     getProduct();
   }, []);
+
+  const userContext = useContext(UserContext);
+  if (!userContext) {
+    throw new Error("meow");
+  }
+  const { user } = userContext;
 
   return (
     <div className="flex flex-col mt-4 justify-center items-center lg:mx-24 sm:mx-24">
@@ -48,27 +57,35 @@ export default function ProductPage() {
               variety, and seamless shopping experiences. Dive into a world of
               convenience and style – your one-stop shop for all things fabulous
             </p>
-            <button className="bg-blue-500 btn text-white hover:bg-blue-200">
+            <a
+              className="bg-blue-500 btn text-white hover:bg-blue-200"
+              onClick={() => Navigate(`${!user ? "/login" : "/"}`)}
+            >
               Shop now
-            </button>
+            </a>
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap gap-3 w-full justify-center">
-        {product.length > 0 &&
-          product.map((product) => {
-            return (
-              <Card
-                key={product._id}
-                productName={product.productName}
-                src={product.image}
-                category={product.category}
-                price={product.price}
-                description={product.description}
-              />
-            );
-          })}
-      </div>
+      {user ? (
+        <div className="flex flex-wrap gap-3 w-full justify-center">
+          {product.length > 0 &&
+            product.map((product) => {
+              return (
+                <Card
+                  key={product._id}
+                  productName={product.productName}
+                  src={product.image}
+                  category={product.category}
+                  price={product.price}
+                  description={product.description}
+                  productId={product._id}
+                />
+              );
+            })}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

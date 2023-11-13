@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
-import Drawer from "./Drawer";
 import Logo from "./Logo";
-import Dropdown from "./Dropdown";
 import ProfileDropdown from "./ProfileDropdown";
+import React from "react";
 
 export default function Navbar() {
   const Navigate = useNavigate();
@@ -13,7 +12,7 @@ export default function Navbar() {
   if (!userContext) {
     throw new Error("UserContext is not available");
   }
-  const { user, setUser } = userContext;
+  const { user } = userContext;
 
   return (
     <>

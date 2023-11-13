@@ -7,7 +7,7 @@ const date = Date.now();
 const router = express.Router();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Uploads folder in the root directory
+    cb(null, "uploads/products"); // Uploads folder in the root directory
   },
   filename: function (req, file, cb) {
     cb(null, date + file.originalname); // Unique filename
@@ -20,7 +20,7 @@ router.post(
   "/createProduct",
   upload.single("image"),
   async (req: Request, res: Response, next: NextFunction) => {
-    const { productName, price, description, category } = req.body;
+    const { productName, price, description, category, sellerId } = req.body;
     const image = req.file?.filename;
     if (!image) {
       return res.status(400).json("no image provided");
@@ -32,6 +32,7 @@ router.post(
         price,
         description,
         category,
+        sellerId,
       });
 
       await newProduct.save();
@@ -55,10 +56,11 @@ router.get(
 );
 
 router.get(
-  "/getProduct/:id",
+  "/viewProduct/:id",
   async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
     try {
-      const product = await productModel.findOne({ _id: req.params.id });
+      const product = await productModel.findById({ _id: id });
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
       }
@@ -69,4 +71,19 @@ router.get(
   }
 );
 
+router.get(
+  "/yourProduct/:userId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+    try {
+      const product = await productModel.find({ sellerId: userId });
+      if (!product) {
+        return res.status(404).json("Product not found");
+      }
+      return res.status(200).json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 module.exports = router;
