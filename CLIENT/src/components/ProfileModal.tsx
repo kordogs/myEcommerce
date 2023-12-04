@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import ReusableModal from "./reusable/ReusableModal";
 import { useState } from "react";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import LoadingCard from "./LoadingCard";
 import ButtonWithSlidingInput from "./reusable/ButtonWithSlidingInput";

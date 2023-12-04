@@ -2,6 +2,7 @@ import express from "express";
 import { Request, Response, NextFunction } from "express";
 import productModel from "../models/product";
 import multer from "multer";
+import userModel from "../models/user";
 
 const date = Date.now();
 const router = express.Router();
@@ -34,7 +35,6 @@ router.post(
         category,
         sellerId,
       });
-
       await newProduct.save();
       return res.status(200).json("product save");
     } catch (error) {
@@ -86,4 +86,22 @@ router.get(
     }
   }
 );
+
+router.delete(
+  "/deleteProduct/:productId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { productId } = req.params;
+    try {
+      const product = await productModel.findById({ _id: productId });
+      if (!product) {
+        return res.status(404).json("product not found");
+      }
+      await productModel.findByIdAndDelete({ _id: productId });
+      return res.status(200).json("deleted");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;

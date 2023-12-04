@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 
 export default function CreateProduct() {
   const Navigate = useNavigate();
@@ -40,7 +40,6 @@ export default function CreateProduct() {
       );
 
       if (response.status === 200) {
-        alert("success");
         Navigate("/");
       }
     } catch (error) {
@@ -58,7 +57,7 @@ export default function CreateProduct() {
               : "https://i.pinimg.com/564x/e2/e6/99/e2e699d87be50abe0616ecc30fc2e616.jpg"
           }
           alt=""
-          className="rounded-lg h-[564px] w-[564px]"
+          className="rounded-lg h-[564px] w-[564px] object-contain"
         />
         <input
           type="file"

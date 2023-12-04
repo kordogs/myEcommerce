@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 interface Product {
   _id: string;
@@ -38,7 +37,7 @@ export default function ViewProduct() {
         <div className="flex flex-col gap-2">
           <img
             src={`http://localhost:4000/uploads/products/${product?.image}`}
-            className="rounded-lg h-[564px] w-[564px] bg-gray-300"
+            className="rounded-lg h-[564px] w-[564px] bg-gray-300 object-contain"
             alt={"an image"}
           />
         </div>

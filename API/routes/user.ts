@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import multer from "multer";
 import userModel from "../models/user";
 import dotenv from "dotenv";
+import productModel from "../models/product";
 dotenv.config();
 
 const secret = process.env.SECRET;
@@ -99,6 +100,134 @@ router.put(
       );
       res.cookie("token", updateToken, { httpOnly: true });
       return res.status(200).json("successfully updated");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  "/addToCart/:productId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { productId } = req.params;
+    if (!productId) {
+      return res.status(404).json("product not found");
+    }
+    const { token } = req.cookies;
+    if (!token) {
+      return res.status(404).json("cookies error");
+    }
+    try {
+      const user = await jwt.verify(token, process.env.SECRET, {});
+      if (!user) {
+        return res.status(404).json("jwt error: not found");
+      }
+      const currentUser = await userModel.findById({ _id: user.id });
+      if (!currentUser) {
+        return res.status(404).json("no user found");
+      }
+      await currentUser.updateOne({ $addToSet: { cart: productId } });
+      return res.status(200).json("added to cart");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  "/getCart",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { token } = req.cookies;
+      if (!token) {
+        return res.status(404).json("cookies error");
+      }
+      const user = await jwt.verify(token, process.env.SECRET, {});
+      if (!user) {
+        return res.status(404).json("jwt error: not found");
+      }
+      const currentUser = await userModel.findById(user.id);
+      const cartProductsIds = currentUser?.cart;
+      const cartProducts = await productModel.find({
+        _id: { $in: cartProductsIds },
+      });
+      return res.status(200).json(cartProducts);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete(
+  "/deleteCart/:productId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { token } = req.cookies;
+      if (!token) {
+        return res.status(404).json("cookies error");
+      }
+      const user = await jwt.verify(token, process.env.SECRET, {});
+      if (!user) {
+        return res.status(404).json("jwt error: not found");
+      }
+      const { productId } = req.params;
+      if (!productId) {
+        return res.status(404).json("product not found");
+      }
+
+      const currentUser = await userModel.findById(user.id);
+      await currentUser?.updateOne({ $pull: { cart: productId } });
+      return res.status(200).json("item deleted");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  "/addToFavorites/:productId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { token } = req.cookies;
+      if (!token) {
+        return res.status(404).json("cookies error");
+      }
+      const user = await jwt.verify(token, process.env.SECRET, {});
+      if (!user) {
+        return res.status(404).json("jwt error: not found");
+      }
+      const { productId } = req.params;
+      if (!productId) {
+        return res.status(404).json("product not found");
+      }
+
+      const currentUser = await userModel.findById(user.id);
+      await currentUser?.updateOne({ $addToSet: { favorites: productId } });
+      return res.status(200).json("added to favorites");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  "/getFavorites",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { token } = req.cookies;
+      if (!token) {
+        return res.status(404).json("cookies error");
+      }
+      const user = await jwt.verify(token, process.env.SECRET, {});
+      if (!user) {
+        return res.status(404).json("jwt error: not found");
+      }
+      const currentUser = await userModel.findById(user.id);
+      const favoriteProductsIds = currentUser?.favorites;
+      const favoriteProducts = await productModel.find({
+        _id: { $in: favoriteProductsIds },
+      });
+      return res.status(200).json(favoriteProducts);
     } catch (error) {
       next(error);
     }

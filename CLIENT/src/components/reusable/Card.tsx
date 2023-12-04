@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Star from "../Star";
 import ProductModal from "../ProductModal";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { UserContext } from "../../context/UserContext";
 
 interface cardProps {
   src: string;
@@ -24,7 +26,22 @@ export default function Card({
 }: cardProps) {
   const productSrc = "http://localhost:4000/uploads/products/" + src;
   const Navigate = useNavigate();
-  console.log(key);
+  const userContext = useContext(UserContext);
+  if (!userContext) {
+    throw new Error("!userContext");
+  }
+  const { fetchData } = userContext;
+  const [favorite, setFavorite] = useState(false);
+
+  const addToCart = async () => {
+    await axios.post(`http://localhost:4000/addToCart/${productId}`);
+    fetchData();
+  };
+
+  const addToFavorites = async () => {
+    await axios.post(`http://localhost:4000/addToFavorites/${productId}`);
+    fetchData();
+  };
 
   return (
     <>
@@ -72,10 +89,13 @@ export default function Card({
           <div className="card-actions justify-between">
             <p className="text-sm">Php {price}</p>
             <div className="button-container flex gap-1">
-              <button className="bg-blue-500 rounded-lg text-xs text-white flex items-center justify-center z-10 p-2">
+              <button
+                className="flex items-center justify-center z-10 p-2"
+                onClick={addToFavorites}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
+                  fill={favorite ? "red" : "none"}
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
@@ -88,7 +108,10 @@ export default function Card({
                   />
                 </svg>
               </button>
-              <button className="bg-blue-500 rounded-lg text-xs text-white flex items-center justify-center z-20 p-2">
+              <button
+                className="bg-blue-500 rounded-lg text-xs text-white flex items-center justify-center z-20 p-2"
+                onClick={addToCart}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

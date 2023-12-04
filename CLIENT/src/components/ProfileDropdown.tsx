@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import Dropdown from "./Dropdown";
 import Cookies from "js-cookie";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import ProfileModal from "./ProfileModal";
 import axios from "axios";
-import Drawer from "./reusable/Drawer";
-import YourProductDrawer from "./YourProductDrawer";
+import YourProductDrawer from "./drawers/YourProductDrawer";
+import FavoritesDrawer from "./drawers/FavoritesDrawer";
+import CartDrawer from "./drawers/CartDrawer";
 
 export default function ProfileDropdown() {
   const Navigate = useNavigate();
@@ -79,17 +80,21 @@ export default function ProfileDropdown() {
               Navigate("/newProduct");
             },
             () => {
-              document.getElementById("my-drawer-trigger")?.click();
+              document.getElementById("your-product")?.click();
             },
             () =>
               (
                 document.getElementById("profileModal") as HTMLDialogElement
               )?.showModal(),
-            () => {},
-            () => {},
+            () => {
+              document.getElementById("favorites-drawer")?.click();
+            },
+            () => {
+              document.getElementById("cart-drawer")?.click();
+            },
             () =>
               (
-                document.getElementById("my_modal_1") as HTMLDialogElement
+                document.getElementById("logout") as HTMLDialogElement
               )?.showModal(),
           ]) ||
           (!user && [() => Navigate("/login"), () => Navigate("/register")])
@@ -195,13 +200,31 @@ export default function ProfileDropdown() {
         }
       />
       <Modal
+        svg={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+            />
+          </svg>
+        }
+        id="logout"
         title="Logout Confirmation"
         description="Are you sure you want to logout?"
         onclick={logout}
       />
       <ProfileModal />
-      {isOpenModal && <Modal title="" description="" onclick={logout} />}
       <YourProductDrawer />
+      <FavoritesDrawer />
+      <CartDrawer />
     </>
   );
 }

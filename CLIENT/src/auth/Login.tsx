@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import LoadingCard from "../components/LoadingCard";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 import Cookies from "js-cookie";
 
 axios.defaults.withCredentials = true;

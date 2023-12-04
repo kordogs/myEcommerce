@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import Card from "../components/reusable/Card";
 import axios from "axios";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import CategoryCard from "../components/reusable/CategoryCard";
+import { ProductContext } from "../context/ProductContext";
 
 interface Product {
   _id: string;
@@ -16,6 +18,16 @@ interface Product {
 
 export default function ProductPage() {
   const [product, setProduct] = useState<Product[]>([]);
+  const userContext = useContext(UserContext);
+  if (!userContext) {
+    throw new Error("meow");
+  }
+  const { user } = userContext;
+  const productContext = useContext(ProductContext);
+  if (!productContext) {
+    throw new Error("product undefined");
+  }
+  const { Product } = productContext;
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -29,16 +41,10 @@ export default function ProductPage() {
       }
     };
     getProduct();
-  }, []);
-
-  const userContext = useContext(UserContext);
-  if (!userContext) {
-    throw new Error("meow");
-  }
-  const { user } = userContext;
+  }, [user]);
 
   return (
-    <div className="flex flex-col mt-4 justify-center items-center lg:mx-24 sm:mx-24">
+    <div className="flex flex-col mt-4 items-center lg:mx-24 sm:mx-24">
       <div
         className="w-full mb-5 bg-blue-50 rounded-xl"
         style={{
@@ -66,6 +72,13 @@ export default function ProductPage() {
           </div>
         </div>
       </div>
+
+      <section className="featured-categories w-full">
+        <h1 className="text-start font-bold text-xl mb-5">
+          Featured Categories
+        </h1>
+        <ul className="category-items flex overflow-x-auto"></ul>
+      </section>
       {user ? (
         <div className="flex flex-wrap gap-3 w-full justify-center">
           {product.length > 0 &&
