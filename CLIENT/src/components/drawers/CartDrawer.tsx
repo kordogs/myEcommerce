@@ -4,16 +4,8 @@ import axios from "axios";
 import ProductCardDrawer from "../non-reusable/productCardDrawer";
 import Modal from "../Modal";
 import { UserContext } from "../../context/UserContext";
-
-interface Product {
-  _id: string;
-  productName: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  productId: string;
-}
+import { CartContext } from "../../context/CartContext";
+import { Product } from "../../interface/Product";
 
 export default function CartDrawer() {
   const [product, setProduct] = useState<Product[]>([]);
@@ -25,14 +17,14 @@ export default function CartDrawer() {
     throw new Error("user undefined");
   }
   const { user, fetchData } = userContext;
-
+  const cartContext = useContext(CartContext);
+  if (!cartContext) {
+    throw new Error("!cartContext");
+  }
+  const { cartProducts } = cartContext;
   useEffect(() => {
-    const getFavoriteProduct = async () => {
-      const response = await axios.get("http://localhost:4000/getCart");
-      setProduct(response.data);
-    };
-    getFavoriteProduct();
-  }, [user]);
+    setProduct(cartProducts);
+  }, [cartProducts]);
 
   const deleteProduct = async (productId: string) => {
     const response = await axios.delete(
@@ -66,6 +58,9 @@ export default function CartDrawer() {
                   price={product.price}
                   image={product.image}
                   productId={product._id}
+                  editable={false}
+                  counterInput={true}
+                  onclickEdit={() => {}}
                 />
               ))
             : null}

@@ -12,8 +12,6 @@ import CartDrawer from "./drawers/CartDrawer";
 
 export default function ProfileDropdown() {
   const Navigate = useNavigate();
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const userContext = useContext(UserContext);
   if (!userContext) {
     throw new Error("UserContext is not available");
@@ -198,6 +196,7 @@ export default function ProfileDropdown() {
           ]) ||
           (!user && [])
         }
+        badge={[1]}
       />
       <Modal
         svg={

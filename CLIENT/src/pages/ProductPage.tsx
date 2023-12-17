@@ -3,8 +3,8 @@ import Card from "../components/reusable/Card";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import CategoryCard from "../components/reusable/CategoryCard";
-import { ProductContext } from "../context/ProductContext";
+import useFavoriteProducts from "../hooks/Favorites";
+import useCartProducts from "../hooks/Cart";
 
 interface Product {
   _id: string;
@@ -18,16 +18,19 @@ interface Product {
 
 export default function ProductPage() {
   const [product, setProduct] = useState<Product[]>([]);
+  const [isLoadingFavorites, setIsLoadingFavorites] = useState(true);
+
   const userContext = useContext(UserContext);
   if (!userContext) {
     throw new Error("meow");
   }
   const { user } = userContext;
-  const productContext = useContext(ProductContext);
-  if (!productContext) {
-    throw new Error("product undefined");
-  }
-  const { Product } = productContext;
+  // const productContext = useContext(ProductContext);
+  // if (!productContext) {
+  //   throw new Error("product undefined");
+  // }
+  // const { Product } = productContext;
+
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +45,15 @@ export default function ProductPage() {
     };
     getProduct();
   }, [user]);
+
+  const favorites = useFavoriteProducts(user);
+  const cartItems = useCartProducts(user);
+
+  useEffect(() => {
+    if (favorites) {
+      setIsLoadingFavorites(false);
+    }
+  }, [favorites]);
 
   return (
     <div className="flex flex-col mt-4 items-center lg:mx-24 sm:mx-24">
@@ -81,8 +93,14 @@ export default function ProductPage() {
       </section>
       {user ? (
         <div className="flex flex-wrap gap-3 w-full justify-center">
-          {product.length > 0 &&
-            product.map((product) => {
+          {isLoadingFavorites ||
+          !favorites ||
+          favorites.length === -1 ||
+          cartItems.length === -1 ? (
+            <p>Loading...</p>
+          ) : (
+            product?.length > 0 &&
+            product?.map((product) => {
               return (
                 <Card
                   key={product._id}
@@ -92,9 +110,16 @@ export default function ProductPage() {
                   price={product.price}
                   description={product.description}
                   productId={product._id}
+                  isFavorites={favorites?.some(
+                    (favoriteProduct) => favoriteProduct._id === product._id
+                  )}
+                  isAddedToCart={cartItems?.some(
+                    (cartProduct) => cartProduct._id === product._id
+                  )}
                 />
               );
-            })}
+            })
+          )}
         </div>
       ) : (
         ""

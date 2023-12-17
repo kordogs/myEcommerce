@@ -4,6 +4,8 @@ import { UserContext } from "../context/UserContext";
 import Logo from "./Logo";
 import ProfileDropdown from "./ProfileDropdown";
 import React from "react";
+import { FavoriteProductsContext } from "../context/FavoriteContext";
+import { CartContext } from "../context/CartContext";
 
 export default function Navbar() {
   const Navigate = useNavigate();
@@ -13,6 +15,17 @@ export default function Navbar() {
     throw new Error("UserContext is not available");
   }
   const { user } = userContext;
+  const favoriteContext = useContext(FavoriteProductsContext);
+  if (!favoriteContext) {
+    throw new Error("!FavoriteContext");
+  }
+  const { favoriteProducts } = favoriteContext;
+
+  const cartContext = useContext(CartContext);
+  if (!cartContext) {
+    throw new Error("!cartContext");
+  }
+  const { cartProducts } = cartContext;
 
   return (
     <>
@@ -45,7 +58,7 @@ export default function Navbar() {
           <button
             className="w-14 h-14 flex justify-center items-center relative"
             onClick={() => {
-              Navigate(`${(user && "/") || (!user && "")}`);
+              document.getElementById("favorites-drawer")?.click();
             }}
           >
             <span
@@ -53,7 +66,7 @@ export default function Navbar() {
                 !user && ""
               }`}
             >
-              2
+              {favoriteProducts.length}
             </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -70,9 +83,14 @@ export default function Navbar() {
               />
             </svg>
           </button>
-          <button className="w-14 h-14 flex justify-center items-center relative">
+          <button
+            className="w-14 h-14 flex justify-center items-center relative"
+            onClick={() => {
+              document.getElementById("cart-drawer")?.click();
+            }}
+          >
             <span className="absolute bg-red-500 text-white px-1 right-2 top-2 badge">
-              2
+              {cartProducts.length}
             </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -234,4 +234,30 @@ router.get(
   }
 );
 
+router.delete(
+  "/deleteFavorites/:productId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { token } = req.cookies;
+      if (!token) {
+        return res.status(404).json("cookies error");
+      }
+      const user = await jwt.verify(token, process.env.SECRET, {});
+      if (!user) {
+        return res.status(404).json("jwt error: not found");
+      }
+      const { productId } = req.params;
+      if (!productId) {
+        return res.status(404).json("product not found");
+      }
+
+      const currentUser = await userModel.findById(user.id);
+      await currentUser?.updateOne({ $pull: { favorites: productId } });
+      return res.status(200).json("item deleted");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;

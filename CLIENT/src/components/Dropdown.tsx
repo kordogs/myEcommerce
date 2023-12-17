@@ -5,6 +5,7 @@ interface dropdownProps {
   svg: React.ReactNode | string;
   itemSvg: React.ReactNode[];
   onClick: ReactEventHandler[];
+  badge: number[];
 }
 
 export default function Dropdown({
@@ -12,6 +13,7 @@ export default function Dropdown({
   svg,
   onClick,
   itemSvg,
+  badge,
 }: dropdownProps) {
   return (
     <div className="dropdown dropdown-end">
@@ -38,6 +40,9 @@ export default function Dropdown({
             <a>
               {itemSvg[index]}
               {item}
+              <span className="absolute bg-red-500 text-white px-1 right-2 top-2 badge">
+                {badge}
+              </span>
             </a>
           </li>
         ))}

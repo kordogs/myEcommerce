@@ -4,16 +4,8 @@ import ProductCardDrawer from "../non-reusable/productCardDrawer";
 import axios from "axios";
 import Modal from "../Modal";
 import { UserContext } from "../../context/UserContext";
-
-interface Product {
-  _id: string;
-  productName: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  productId: string;
-}
+import { FavoriteProductsContext } from "../../context/FavoriteContext";
+import { Product } from "../../interface/Product";
 
 export default function FavoritesDrawer() {
   const [product, setProduct] = useState<Product[]>([]);
@@ -25,14 +17,27 @@ export default function FavoritesDrawer() {
     throw new Error("!userContext");
   }
   const { user } = userContext;
+  const favoriteContext = useContext(FavoriteProductsContext);
+  if (!favoriteContext) {
+    throw new Error("!favoriteContext");
+  }
+  const { favoriteProducts } = favoriteContext;
 
   useEffect(() => {
-    const getFavoriteProduct = async () => {
-      const response = await axios.get(`http://localhost:4000/getFavorites`);
-      setProduct(response.data);
-    };
-    getFavoriteProduct();
-  }, [user]);
+    setProduct(favoriteProducts);
+  }, [favoriteProducts]);
+
+  const deleteProduct = async (productId: string) => {
+    const response = await axios.delete(
+      `http://localhost:4000/deleteFavorites/${productId}`
+    );
+    if (!response) {
+      throw new Error("Cannot delete product");
+    }
+    setProduct((prevProducts) =>
+      prevProducts.filter((product) => product._id !== productId)
+    );
+  };
 
   return (
     <Drawer
@@ -55,6 +60,9 @@ export default function FavoritesDrawer() {
                   price={product.price}
                   image={product.image}
                   productId={product._id}
+                  editable={false}
+                  counterInput={true}
+                  onclickEdit={() => {}}
                 />
               ))
             : null}

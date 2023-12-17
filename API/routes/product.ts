@@ -104,4 +104,28 @@ router.delete(
   }
 );
 
+router.put(
+  "/updateProduct/:productId",
+  upload.single("image"),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { productId } = req.params;
+      const { productName, price, category, description } = req.body;
+      const image = req.file?.filename;
+      const updatedProduct = await productModel.findByIdAndUpdate(
+        productId,
+        { productName, price, category, description, image },
+        { new: true }
+      );
+      if (!updatedProduct) {
+        return res.status(404).json("Product not found");
+      }
+
+      return res.status(200).json("updated");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;

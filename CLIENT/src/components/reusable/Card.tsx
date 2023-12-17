@@ -4,6 +4,9 @@ import ProductModal from "../ProductModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
+import Modal from "../Modal";
+import { animate, motion } from "framer-motion";
+import ProductContext from "../../context/ProductContext";
 
 interface cardProps {
   src: string;
@@ -13,6 +16,8 @@ interface cardProps {
   description: string;
   key: string;
   productId: string;
+  isFavorites: boolean;
+  isAddedToCart: boolean;
 }
 
 export default function Card({
@@ -23,6 +28,8 @@ export default function Card({
   description,
   key,
   productId,
+  isFavorites,
+  isAddedToCart,
 }: cardProps) {
   const productSrc = "http://localhost:4000/uploads/products/" + src;
   const Navigate = useNavigate();
@@ -30,17 +37,20 @@ export default function Card({
   if (!userContext) {
     throw new Error("!userContext");
   }
-  const { fetchData } = userContext;
-  const [favorite, setFavorite] = useState(false);
+  const { fetchData, user } = userContext;
+  const [favorite, setFavorite] = useState({ isFavorites });
+  const [isAdded, setIsAdded] = useState({ isAddedToCart });
 
   const addToCart = async () => {
     await axios.post(`http://localhost:4000/addToCart/${productId}`);
     fetchData();
+    setIsAdded({ isAddedToCart: true });
   };
 
   const addToFavorites = async () => {
     await axios.post(`http://localhost:4000/addToFavorites/${productId}`);
     fetchData();
+    setFavorite({ isFavorites: true });
   };
 
   return (
@@ -80,22 +90,48 @@ export default function Card({
           <p className="d font-thin text-xs">{category}</p>
           <a className="card-title text-sm">{productName}</a>
           <div className="rating-container flex my-2">
-            <Star />
-            <Star />
-            <Star />
-            <Star />
-            <Star />
+            <div className="rating rating-xs">
+              <input
+                type="radio"
+                name="rating-5"
+                className="mask mask-star-2 bg-orange-400"
+              />
+              <input
+                type="radio"
+                name="rating-5"
+                className="mask mask-star-2 bg-orange-400"
+              />
+              <input
+                type="radio"
+                name="rating-5"
+                className="mask mask-star-2 bg-orange-400"
+              />
+              <input
+                type="radio"
+                name="rating-5"
+                className="mask mask-star-2 bg-orange-400"
+              />
+              <input
+                type="radio"
+                name="rating-5"
+                className="mask mask-star-2 bg-orange-400"
+                checked
+              />
+            </div>
           </div>
-          <div className="card-actions justify-between">
+          <div className="card-actions justify-between items-center">
             <p className="text-sm">Php {price}</p>
             <div className="button-container flex gap-1">
-              <button
+              <motion.button
                 className="flex items-center justify-center z-10 p-2"
                 onClick={addToFavorites}
+                whileTap={{ scale: 2 }}
+                whileHover={{ scale: 1.2 }}
+                transition={{ duration: 0.1 }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill={favorite ? "red" : "none"}
+                  fill={favorite.isFavorites ? "red" : "none"}
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
@@ -107,27 +143,39 @@ export default function Card({
                     d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                   />
                 </svg>
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 className="bg-blue-500 rounded-lg text-xs text-white flex items-center justify-center z-20 p-2"
                 onClick={addToCart}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 2.0 }}
               >
-                <svg
+                <motion.svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
                   className="w-4 h-4"
+                  animate={isAdded.isAddedToCart ? { rotate: 360 } : {}}
+                  transition={{ duration: 0.3 }}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 6v12m6-6H6"
-                  />
-                </svg>
-                Add
-              </button>
+                  {isAdded.isAddedToCart ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 6v12m6-6H6"
+                    />
+                  )}
+                </motion.svg>
+                {isAdded.isAddedToCart ? "Added" : "Add"}
+              </motion.button>
             </div>
           </div>
         </div>

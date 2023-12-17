@@ -2,6 +2,7 @@ import React, {
   EventHandler,
   HtmlHTMLAttributes,
   ReactEventHandler,
+  useState,
 } from "react";
 import CounterInput from "../reusable/CounterInput";
 import { title } from "process";
@@ -15,12 +16,19 @@ interface productCardDrawerProps {
   image: string;
   productId: string;
   onclick: ReactEventHandler;
+  onclickEdit: ReactEventHandler;
+  editable: boolean;
+  counterInput: boolean;
 }
 
 export default function productCardDrawer({
   ...productCardDrawer
 }: productCardDrawerProps) {
   const Navigate = useNavigate();
+  const [editable, setEditable] = useState(productCardDrawer.editable);
+  const [isCounterInput, setIsCounterInput] = useState(
+    productCardDrawer.counterInput
+  );
 
   return (
     <>
@@ -33,12 +41,37 @@ export default function productCardDrawer({
         />
         <div className="flex flex-col justify-between">
           <div className="">
-            <div className="flex items-center justify-between">
+            <div
+              className={`flex items-center justify-between ${
+                editable ? " gap-20" : ""
+              }`}
+            >
               <div className="flex flex-col">
                 <span className="font-bold">{productCardDrawer.title}</span>
                 <span className="text-xs">{productCardDrawer.category}</span>
               </div>
-              <div className="text-gray-600">
+              <div className="text-gray-600 flex gap-1">
+                {editable ? (
+                  <button onClick={productCardDrawer.onclickEdit}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      className="w-4 h-4"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                      />
+                    </svg>
+                  </button>
+                ) : (
+                  ""
+                )}
+
                 <button onClick={productCardDrawer.onclick}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +93,7 @@ export default function productCardDrawer({
             <span className="font-bold text-lg">
               PHP {productCardDrawer.price}
             </span>
-            <CounterInput />
+            {isCounterInput ? <CounterInput /> : ""}
           </div>
         </div>
       </div>

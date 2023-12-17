@@ -11,6 +11,8 @@ type UserContextType = {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   fetchData: () => Promise<void>;
+  favorites: string[];
+  cart: string[];
 };
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -19,6 +21,8 @@ export const UserContext = createContext<UserContextType | undefined>(
 
 export default function UserContextProvider({ children }) {
   const [user, setUser] = useState<User | null>(null);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [cart, setCart] = useState<string[]>([]);
 
   const fetchData = async () => {
     try {
@@ -39,7 +43,7 @@ export default function UserContextProvider({ children }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, fetchData }}>
+    <UserContext.Provider value={{ user, setUser, fetchData, favorites, cart }}>
       {children}
     </UserContext.Provider>
   );

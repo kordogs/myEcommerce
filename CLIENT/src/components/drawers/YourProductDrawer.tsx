@@ -4,6 +4,7 @@ import ProductCardDrawer from "../non-reusable/productCardDrawer";
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
 import Modal from "../Modal";
+import { useNavigate } from "react-router-dom";
 
 interface Product {
   _id: string;
@@ -26,6 +27,7 @@ export default function YourProductDrawer() {
     throw new Error("UserContext is not available");
   }
   const { user, setUser, fetchData } = userContext;
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const fetchYourProduct = async () => {
@@ -72,6 +74,11 @@ export default function YourProductDrawer() {
                   price={product.price}
                   image={product.image}
                   productId={product._id}
+                  editable={true}
+                  onclickEdit={() => {
+                    Navigate("/editProduct", { state: { product } });
+                  }}
+                  counterInput={false}
                 />
               ))
             : null}
