@@ -5,6 +5,8 @@ import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import useFavoriteProducts from "../hooks/Favorites";
 import useCartProducts from "../hooks/Cart";
+import Modal from "../components/Modal";
+import { SearchContext } from "../context/SearchContext";
 
 interface Product {
   _id: string;
@@ -19,6 +21,7 @@ interface Product {
 export default function ProductPage() {
   const [product, setProduct] = useState<Product[]>([]);
   const [isLoadingFavorites, setIsLoadingFavorites] = useState(true);
+  const { search } = useContext(SearchContext);
 
   const userContext = useContext(UserContext);
   if (!userContext) {
@@ -93,32 +96,33 @@ export default function ProductPage() {
       </section>
       {user ? (
         <div className="flex flex-wrap gap-3 w-full justify-center">
-          {isLoadingFavorites ||
-          !favorites ||
-          favorites.length === -1 ||
-          cartItems.length === -1 ? (
+          {favorites.length == -1 || cartItems.length == -1 ? (
             <p>Loading...</p>
           ) : (
             product?.length > 0 &&
-            product?.map((product) => {
-              return (
-                <Card
-                  key={product._id}
-                  productName={product.productName}
-                  src={product.image}
-                  category={product.category}
-                  price={product.price}
-                  description={product.description}
-                  productId={product._id}
-                  isFavorites={favorites?.some(
-                    (favoriteProduct) => favoriteProduct._id === product._id
-                  )}
-                  isAddedToCart={cartItems?.some(
-                    (cartProduct) => cartProduct._id === product._id
-                  )}
-                />
-              );
-            })
+            product
+              ?.filter((product) =>
+                product.productName.toLowerCase().includes(search.toLowerCase())
+              )
+              ?.map((product) => {
+                return (
+                  <Card
+                    key={product._id}
+                    productName={product.productName}
+                    src={product.image}
+                    category={product.category}
+                    price={product.price}
+                    description={product.description}
+                    productId={product._id}
+                    isFavorites={favorites?.some(
+                      (favoriteProduct) => favoriteProduct._id === product._id
+                    )}
+                    isAddedToCart={cartItems?.some(
+                      (cartProduct) => cartProduct._id === product._id
+                    )}
+                  />
+                );
+              })
           )}
         </div>
       ) : (

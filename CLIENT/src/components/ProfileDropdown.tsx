@@ -196,7 +196,6 @@ export default function ProfileDropdown() {
           ]) ||
           (!user && [])
         }
-        badge={[1]}
       />
       <Modal
         svg={

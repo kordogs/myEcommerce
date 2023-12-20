@@ -11,6 +11,7 @@ import ProductContextProvider from "./context/ProductContext";
 import EditProduct from "./pages/editProduct";
 import { FavoriteProductsProvider } from "./context/FavoriteContext";
 import { CartProvider } from "./context/CartContext";
+import { SearchProvider } from "./context/SearchContext";
 
 export default function App() {
   return (
@@ -27,9 +28,11 @@ export default function App() {
           </Routes>
           <FavoriteProductsProvider>
             <CartProvider>
-              <Routes>
-                <Route index element={<IndexPage />} />
-              </Routes>
+              <SearchProvider>
+                <Routes>
+                  <Route index element={<IndexPage />} />
+                </Routes>
+              </SearchProvider>
             </CartProvider>
           </FavoriteProductsProvider>
         </ProductContextProvider>

@@ -6,9 +6,12 @@ import ProfileDropdown from "./ProfileDropdown";
 import React from "react";
 import { FavoriteProductsContext } from "../context/FavoriteContext";
 import { CartContext } from "../context/CartContext";
+import { SearchContext } from "../context/SearchContext";
+import emptyProfile from "../assets/_.jpeg";
 
 export default function Navbar() {
   const Navigate = useNavigate();
+  const { search, setSearch } = useContext(SearchContext);
 
   const userContext = useContext(UserContext);
   if (!userContext) {
@@ -32,10 +35,15 @@ export default function Navbar() {
       <nav className="flex items-center justify-between flex-wrap h-20 px-16 shadow-sm sticky top-0 z-50 bg-base-100">
         <div className="flex gap-1">
           <Logo />
-          <form className="lg:border border-black-100 rounded-xl flex justify-center">
+          <form
+            className="lg:border border-black-100 rounded-xl flex justify-center"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <input
               placeholder="search"
               className="bg-transparent w-80 h-12 ps-3 hidden lg:flex"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
             <button className="flex justify-center items-center p-2">
               <svg

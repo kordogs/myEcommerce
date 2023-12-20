@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Star from "../Star";
 import ProductModal from "../ProductModal";
 import { useNavigate } from "react-router-dom";
@@ -52,6 +52,17 @@ export default function Card({
     fetchData();
     setFavorite({ isFavorites: true });
   };
+
+  // useEffect(() => {
+  //   const modal = document.getElementById("success");
+  //   if (modal) {
+  //     modal.showModal();
+
+  //     setTimeout(() => {
+  //       modal.close();
+  //     }, 1000); // close after 1 second
+  //   }
+  // }, []);
 
   return (
     <>
@@ -146,7 +157,16 @@ export default function Card({
               </motion.button>
               <motion.button
                 className="bg-blue-500 rounded-lg text-xs text-white flex items-center justify-center z-20 p-2"
-                onClick={addToCart}
+                onClick={() => {
+                  addToCart();
+                  const modal = document.getElementById(
+                    "success"
+                  ) as HTMLDialogElement;
+                  modal.showModal();
+                  setTimeout(() => {
+                    modal.close();
+                  }, 500); // close after 1 second
+                }}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 2.0 }}
               >
@@ -188,6 +208,42 @@ export default function Card({
         price={price}
         description={description}
       />
+
+      {/* <dialog id="success" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg text-center">Added to Cart</h3>
+          <p className="py-4 flex justify-center">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                {" "}
+                <path
+                  opacity="0.5"
+                  d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                ></path>{" "}
+                <path
+                  d="M8.5 12.5L10.5 14.5L15.5 9.5"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>{" "}
+              </g>
+            </svg>
+          </p>
+        </div>
+      </dialog> */}
     </>
   );
 }

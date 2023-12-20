@@ -40,9 +40,9 @@ export default function Dropdown({
             <a>
               {itemSvg[index]}
               {item}
-              <span className="absolute bg-red-500 text-white px-1 right-2 top-2 badge">
+              {/* <span className="absolute bg-red-500 text-white px-1 right-2 top-2 badge">
                 {badge}
-              </span>
+              </span> */}
             </a>
           </li>
         ))}
